@@ -7,7 +7,7 @@
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.0.0/css/all.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/xterm@4.12.0/css/xterm.min.css">
 
     <title>Device Info - Raspilab Experiments</title>
@@ -25,7 +25,7 @@
         background-image: url('./img/bg.jpeg');
         background-repeat: repeat;
         background-position: center;
-        padding-top:70px;
+        padding-top:56px;
         font-family: 'Roboto', sans-serif;
 
         
@@ -103,6 +103,108 @@
     stroke: #666666;
     fill: #4684EE;
   }
+
+  .widget-container{
+    display:flex;
+    flex-wrap: wrap;
+    
+  }
+
+  .widget{
+    margin:5px;
+    flex: 0 0 180px;
+    width:180px;
+    height: 180px;
+    display:inline-block;
+  }
+
+  .widget-window{
+    width:100%;
+    height:100%;
+    border-radius: 10px;
+    background-color: white;
+    border:solid 1px #c0c0c0;
+    display:flex;
+    flex-direction: column;
+  }
+
+  .widget-window-head{
+    flex: 0 0 18px;
+    border-bottom: solid 1px #c0c0c0;
+    font-size: 0.75rem;
+    text-align: center;
+    line-height: 18px;
+  }
+
+  .widget-window-content{
+    flex:1 0 auto;
+    padding:5px;
+  }
+
+  .widget-window-info{
+    display:flex;
+    justify-content: space-between;
+    font-size: 0.75rem;
+    height:18px;
+    line-height: 18px;
+  }
+
+  .widget-button{
+    width:100%;
+    height:calc(100% - 18px);
+    text-align: center;
+  }
+
+
+  .buttonHolder{
+  margin:80px auto;
+  width:400px;
+}
+
+
+		.button{
+			background-image: -webkit-linear-gradient(top, #f4f1ee, #fff);
+			background-image: linear-gradient(top, #f4f1ee, #fff);
+			border-radius: 50%;
+      border:none;
+			box-shadow: 0px 8px 10px 0px rgba(0, 0, 0, .3), inset 0px 4px 1px 1px white, inset 0px -3px 1px 1px rgba(204,198,197,.5);
+			display:inline-block;
+			height: 120px;
+			
+			position: relative;
+			width: 120px;			
+			-webkit-transition: all .1s linear;
+			transition: all .1s linear;
+      text-align: center;
+		}
+
+    .button.input{
+      cursor:not-allowed;
+    }
+
+		.button > i{
+			color:#e9e6e4;
+			font-size: 48px;
+			line-height: 128px;
+			text-decoration: none;
+			text-shadow: 0px -1px 1px #bdb5b4, 1px 1px 1px white;
+		
+		}
+
+    .button.lit > i{
+      color:green;
+		}
+
+		.button.active{
+			background-image: -webkit-linear-gradient(top, #efedec, #f7f4f4);
+			background-image: linear-gradient(top, #efedec, #f7f4f4);
+			box-shadow: 0 3px 5px 0 rgba(0,0,0,.4), inset 0px -3px 1px 1px rgba(204,198,197,.5);
+		}
+
+		.button.active:after{
+			color:#dbd2d2;
+			text-shadow: 0px -1px 1px #bdb5b4, 0px 1px 1px white;
+		}
     </style>
   </head>
   <body class="pb-4">
@@ -122,6 +224,7 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarText">
           <small class="navbar-text">
+            <i class="fa-solid fa-satellite-dish"></i>
             <span id="last-com-connect"></span>
           </small>
           
@@ -155,66 +258,65 @@
       </div>
     </nav>
 
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col" id="cpu-gauge">
-          
-        </div>
-        <div class="col" id="memory-gauge">
-          
-        </div>
-        <div class="col" id="disk-gauge">
+    <div class="widget-container">
+
+      <div class="widget">
+        <div class="widget-window">
+          <div class="widget-window-head">
+              LED
+          </div>
+          <div class="widget-window-content">
+            <div class="widget-window-info">
+              <div  class="widget-window-info-pin">
+                <i class="fa-solid fa-circle-dot"></i>
+                <span id="led-button-pin">6</span>
+              </div>
+              <div></div>
+            </div>
+            <div class="widget-button">
+              <button class="button" id="led-button">
+                <i class="fa-solid fa-lightbulb"></i>
+              </button>
+            </div>
+          </div>
           
         </div>
       </div>
-      <div class="row mt-3">
 
-        <!-- Scripts -->
-        <div class="col-md">
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title mb-0 d-flex justify-content-between" title="Scripts running on this device">
-                <span>Scripts</span>
-                <span id="kpi-scripts-running" class="badge bg-secondary"></span>
-              </h5>
+      <div class="widget">
+        <div class="widget-window">
+          <div class="widget-window-head">
+              Push Button
+          </div>
+          <div class="widget-window-content">
+            <div class="widget-window-info">
+              <div  class="widget-window-info-pin">
+                <i class="fa-solid fa-circle-dot"></i>
+                <span id="push-button-pin">5</span>
+              </div>
+              <div></div>
             </div>
-            <ul id="scripts-list" class="list-group list-group-flush">
-              
-            </ul>
+            <div class="widget-button">
+              <button class="button input" id="push-button">
+                <i class="fa-solid fa-hand-pointer"></i>
+              </button>
+            </div>
           </div>
         </div>
-        
-        <!-- Apps -->
-        <div class="col-md mt-2 mt-md-0">
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title mb-0 d-flex justify-content-between" title="Apps running on this device">
-                <span>Apps</span>
-                <span id="kpi-apps-running" class="badge bg-secondary"></span>
-              </h5>
-            </div>
-            <ul id="apps-list" class="list-group list-group-flush">
-              
-            </ul>
-          </div>
-        </div>
+      </div>
 
-        <!-- Deployments -->
-        <div class="col-md mt-2 mt-md-0">
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title mb-0 d-flex justify-content-between" title="User Apps deployed on this device">
-                <span>Deployments</span>
-                <span id="kpi-deployments" class="badge bg-secondary"></span>
-              </h5>
-            </div>
-            <ul id="deployments-list" class="list-group list-group-flush">
-              
-            </ul>
-          </div>
-        </div>
+      
+
+      <div class="widget" id="cpu-gauge">
+          
+      </div>
+      <div class="widget" id="memory-gauge">
         
       </div>
+      <div class="widget" id="disk-gauge">
+        
+      </div>
+      
     </div>
 
 
@@ -254,7 +356,7 @@
       </div>
     </div>
 
-      <!-- Status Modal -->
+      <!-- Run App Modal -->
     <div class="modal fade" id="run-app-modal" tabindex="-1" aria-labelledby="run-app-modal-label" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -294,6 +396,55 @@
       </div>
     </div>
 
+    <!-- Device Modal -->
+    <div class="modal fade" id="device-modal" tabindex="-1" aria-labelledby="device-modal-label" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="device-modal-label">Device</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title mb-0 d-flex justify-content-between" title="Scripts running on this device">
+                  <span>Scripts</span>
+                  <span id="kpi-scripts-running" class="badge bg-secondary"></span>
+                </h5>
+              </div>
+              <ul id="scripts-list" class="list-group list-group-flush">
+                
+              </ul>
+            </div>
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title mb-0 d-flex justify-content-between" title="Apps running on this device">
+                  <span>Apps</span>
+                  <span id="kpi-apps-running" class="badge bg-secondary"></span>
+                </h5>
+              </div>
+              <ul id="apps-list" class="list-group list-group-flush">
+                
+              </ul>
+            </div>
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title mb-0 d-flex justify-content-between" title="User Apps deployed on this device">
+                  <span>Deployments</span>
+                  <span id="kpi-deployments" class="badge bg-secondary"></span>
+                </h5>
+              </div>
+              <ul id="deployments-list" class="list-group list-group-flush">
+                
+              </ul>
+            </div>
+          </div>
+          <div class="modal-footer">
+          </div>
+        </div>
+      </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/xterm@4.12.0/lib/xterm.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/xterm-addon-fit@0.5.0/lib/xterm-addon-fit.min.js"></script>
     
@@ -318,6 +469,8 @@
             elRunAppButton = document.getElementById("run-app-button"),
             elAppUrlInput = document.getElementById("app-url-input"),
             elShutdownButton = document.getElementById("shutdown-button"),
+            elLedButton = document.getElementById("led-button"),
+            elPushButton = document.getElementById("push-button"),
             elRebootButton = document.getElementById("reboot-button"),
             elExitButton = document.getElementById("exit-button"),
             elDevToolsButton = document.getElementById("devtools-button"),
@@ -566,7 +719,7 @@
                         countdown(
                             new Date(oData.device.lastComConnectDate),
                             function(ts) {
-                              elLastComConnect.innerHTML = "connected since " + ts.toHTML("strong");
+                              elLastComConnect.innerHTML = (ts.hours  ? (String(ts.hours).padStart(2, '0') + ":") : "") + String(ts.minutes).padStart(2, '0') + ":" + String(ts.seconds).padStart(2, '0');
                             },
                             countdown.HOURS|countdown.MINUTES|countdown.SECONDS
                         );
@@ -662,6 +815,13 @@
 
             oFeatureHub.unsubscribe("sysInfo");
             oFeatureHub.subscribe("sysInfo", sMachineId + "/app/" + "net.featurehub.phapp.sys" + "/script/" + "sysinfo.py", onReceiveSysInfo);
+
+            oFeatureHub.unsubscribe("led");
+            oFeatureHub.subscribe("led", sMachineId + "/app/" + "net.featurehub.phapp.button_led" + "/script/" + "led.py", onReceiveLedStatus);
+
+            oFeatureHub.unsubscribe("button");
+            oFeatureHub.subscribe("button", sMachineId + "/app/" + "net.featurehub.phapp.button_led" + "/script/" + "button.py", onReceiveButtonStatus);
+
 
             oFeatureHub.send({ method:"requestStatus" }, { });
         };
@@ -913,6 +1073,21 @@
                   }
         };
 
+        let onReceiveLedStatus = function(oData, mHeaders){
+          if(oData.state.mode === "OFF"){
+            elLedButton.classList.remove("lit", "active");
+          }
+          else if(oData.state.mode === "ON"){
+            elLedButton.classList.add("lit", "active");
+          }
+          document.getElementById("led-button-pin").textContent = oData.settings.pin;
+        };
+
+        let onReceiveButtonStatus = function(oData, mHeaders){
+            elPushButton.classList.toggle("active", oData.state.is_pressed);
+            document.getElementById("push-button-pin").textContent = oData.settings.pin;
+        };
+
          /*
         * Buttons
         */
@@ -938,6 +1113,10 @@
 
         elDevToolsButton.addEventListener("click", function(){
             oFeatureHub.send({ method: "toggleDevTools" }, {});
+        });
+
+        elLedButton.addEventListener("click", function(){
+            oFeatureHub.send({ "app":"net.featurehub.phapp.button_led", "script":"led.py", method: "sendMessage" }, { "action": "TOGGLE" });
         });
         
     </script>
